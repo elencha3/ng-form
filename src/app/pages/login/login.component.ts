@@ -1,7 +1,7 @@
 import { LoginForm } from './../../models/login-form.model';
 
 import { Component, OnInit } from "@angular/core";
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -16,12 +16,11 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent implements OnInit {
 
     public title: string;
-    
 
     constructor(
-        private formBuilder: FormBuilder,
-        private router: Router,
-        private authService: AuthService){
+        private formBuilder: FormBuilder, //para crear el grupo de formulario y añadir los validadores
+        private router: Router, //para poder navegar entre las páginas
+        private authService: AuthService){  //para poder usar el servicio
             this.title = "Login";
     }
 
@@ -30,28 +29,24 @@ export class LoginComponent implements OnInit {
     }
 
 
-    // mustMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    //     let emailVal = control.get('pass');
-    //     let passVal = control.get('passConfirm');
-
-    //     return passVal?.value === passConfirmVal?.value ? null : { noMatch: true} ;
-    // };
-
-  //Declaración de formulario y validaciones
+  //Declaración de formulario-login y validaciones
     formularioLogin = this.formBuilder.group({
         email: ['', Validators.compose([Validators.email, Validators.required])],
         pass: ['', Validators.required],
     })
 
 
-  //Acción al enviar formulario
+  //Acción al enviar formulario. Redirige a la home sin comprobar si el user está registrado 
     enviarFormulario(): void {
-        console.log("Enviando formulario");
+        console.log("Enviando login");
       //Convertir datos form a objeto
         let userLog: LoginForm = new LoginForm(
             this.formularioLogin.value.email,
             this.formularioLogin.value.pass,
     )
-            console.log(userLog)
+            console.log(userLog);
+
+            //Redirige a la home una vez completado el login
+            this.router.navigate(['/home']);
     }
 }

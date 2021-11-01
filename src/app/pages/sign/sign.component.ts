@@ -19,14 +19,15 @@ export class SignComponent implements OnInit {
     public title: string;
     
     constructor(
-        private formBuilder: FormBuilder,
-        private router: Router,
-        private authService: AuthService){
+        private formBuilder: FormBuilder, //para crear el grupo de formulario y añadir los validadores
+        private router: Router, //para poder navegar entre las páginas
+        private authService: AuthService){ //para poder usar el servicio
             this.title = "Formulario de Registro";
         }
     
     ngOnInit(){}
 
+    //Validación customizada para comprobar que los valores de los dos campos de contraseña coinciden
     mustMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
         let passVal = control.get('pass');
         let passConfirmVal = control.get('passConfirm');
@@ -66,9 +67,11 @@ export class SignComponent implements OnInit {
         this.formularioRegistro.value.passConfirm,
         this.formularioRegistro.value.conditionCheck   
     )
+    //LLamo a la función del servicio y le paso el objeto Registerform para añadirlo al array
     this.authService.addUsers(user);
     
-    this.router.navigate(['/loginApplication']);
+    //Una vez completado satisfactoriamente el formulario nos redirige al login
+    this.router.navigate(['/login']);
     }
     
 }

@@ -1,5 +1,6 @@
 export class RegisterForm {
 
+    //Declaro la clase formulario de registro con todos los campos que tendrá mi formulario
     private _nombre: string;
     private _apellidos: string;
     private _telefono: string;
@@ -23,7 +24,6 @@ export class RegisterForm {
             this._pass = pass;
             this._passConfirm = passConfirm;
             this._conditionCheck = conditionCheck;
-
         }
 
         //Getters y Setters

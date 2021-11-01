@@ -1,4 +1,5 @@
 export class LoginForm {
+    //Declaro la clase formulario de login con todos los campos que tendrá mi formulario de login
 
     private _email: string;
     private _pass: string;
