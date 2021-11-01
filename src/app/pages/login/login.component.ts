@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
         private formBuilder: FormBuilder,
         private router: Router,
         private authService: AuthService){
-            this.title = "LogIn";
+            this.title = "Login";
     }
 
     ngOnInit(){
