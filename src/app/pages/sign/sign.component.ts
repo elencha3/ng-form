@@ -1,13 +1,16 @@
-import { ContactForm } from '../../models/contact-form.model';
+import { RegisterForm } from '../../models/register-form.model';
 import { Component, OnInit } from "@angular/core";
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-sign',
     templateUrl: './sign.component.html' ,
     styleUrls: ['./sign.component.css'],
-    providers: []
+    providers: [
+        AuthService
+    ]
     
 })
 
@@ -15,10 +18,10 @@ export class SignComponent implements OnInit {
 
     public title: string;
     
-
     constructor(
         private formBuilder: FormBuilder,
-        private router: Router,){
+        private router: Router,
+        private authService: AuthService){
             this.title = "Formulario de Registro";
         }
     
@@ -40,7 +43,7 @@ export class SignComponent implements OnInit {
         direccion: [''],
         localidad: [''],
         provincia: [''],
-        pass: ['', Validators.required],
+        pass: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
         passConfirm: [''], //Al añadir la validación para que coincidan, no es necesario añadir requerido (documentación Angular)
         conditionCheck: ['', Validators.requiredTrue]
     }, {validators: this.mustMatchValidator});
@@ -51,7 +54,7 @@ export class SignComponent implements OnInit {
     enviarFormulario(): void {
         console.log("Enviando formulario");
         //Convertir datos form a objeto
-    let user: ContactForm = new ContactForm(
+    let user: RegisterForm = new RegisterForm(
         this.formularioRegistro.value.nombre,
         this.formularioRegistro.value.apellidos,
         this.formularioRegistro.value.telefono,
@@ -63,8 +66,9 @@ export class SignComponent implements OnInit {
         this.formularioRegistro.value.passConfirm,
         this.formularioRegistro.value.conditionCheck   
     )
+    this.authService.addUsers(user);
     
-    // this.router.navigate(['/loginApplication']);
+    this.router.navigate(['/loginApplication']);
     }
     
 }

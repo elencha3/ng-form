@@ -1,4 +1,4 @@
-export class ContactForm {
+export class RegisterForm {
 
     private _nombre: string;
     private _apellidos: string;
